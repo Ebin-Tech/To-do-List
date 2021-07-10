@@ -7,7 +7,7 @@ var app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
-mongoose.connect("mongodb+srv://ebin:Ebin@123@cluster0.e6emc.mongodb.net/todolistDB?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },()=>{
+mongoose.connect("mongodb+srv://ebin:Ebin@123@cluster0.lz7nn.mongodb.net/todolistDB?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },()=>{
   console.log("Connected to database");
 })
 // mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser: true, useUnifiedTopology: true})
@@ -121,6 +121,10 @@ app.get("/:customList",(req,res)=>{
 app.get("/about",(req,res)=>{
   res.render('about');
 })
-app.listen(3000,(err) => {
-  console.log("server is running")
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port,(err) => {
+  console.log("server has started sucessfully")
 });
