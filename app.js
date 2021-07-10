@@ -7,8 +7,9 @@ var app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
-mongoose.connect("mongodb+srv://ebin:Ebin@123@cluster0.lz7nn.mongodb.net/todolistDB?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },()=>{
-  console.log("Connected to database");
+mongoose.connect("mongodb+srv://ebin:test123@cluster0.lz7nn.mongodb.net/todolistDB?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },(err)=>{
+  if(err){console.log(err)}
+  else{console.log("Connected to database");}
 })
 // mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser: true, useUnifiedTopology: true})
 const todolistSchema={
@@ -16,13 +17,13 @@ const todolistSchema={
 }
 const item= mongoose.model("item",todolistSchema);
 const item1 = new item({
-  name:"Take book"
+  name:"Welcome to ToDoList"
 })
 const item2 = new item({
-  name:"Write story"
+  name:"Click the + button to add the item"
 })
 const item3 = new item({
-  name:"Have food"
+  name:"<-- hit this to delete items"
 })
 const defaultItems=[item1,item2,item3];
 
@@ -33,7 +34,6 @@ const itemSchema = {
 const list = mongoose.model("list",itemSchema);
 
 app.get("/", function(req, res) {
-// let day = date.getDate();
 item.find({},function (err,foundItems){
   if(foundItems.length === 0){
     item.insertMany(defaultItems,function(err){
